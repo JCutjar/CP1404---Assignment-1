@@ -1,3 +1,42 @@
+"""
+Jonathan Cutjar
+07/04/2016
+Items for hire - Solution
+https://github.com/JCutjar/CP1404---Assignment-1
+
+
+Pseudo-code:
+
+
+function choice_list_all_items(rental_list):
+    set index_tracker to 0
+    display ("All items on file (* indicates item is currently out):")
+    for each row in the rental_list array:
+        if the status of an item in the list reads "out":
+            display the name of the item, the item description, and the price with an astrix to denote that this item is "out"
+            add 1 to index_tracker
+        else:
+            display the name of the item, the item description, and the price
+            add 1 to index_tracker
+
+function choice_hire_an_item(rental_list):
+    set index_tracker to 0
+    set nothing_to_hire_boolean to True
+    for each row in rental_list:
+        if the status of the item is "in":
+            set nothing_to_hire_boolean to False
+            display index_tracker, the item name, the item description, and the item cost
+        add 1 to index_tracker
+    if nothing_to_hire_boolean is True
+        display "No items available for hire. Returning to main menu."
+        return to main menu
+    set item_to_hire to equal error_check_input(rental_list)
+    if item_to_hire is "Q"
+        return to main menu
+    else:
+        set the items status to "out"
+
+"""
 import csv as csv
 
 
@@ -30,12 +69,15 @@ def main():
 
 
 def choice_list_all_items(rental_list):
+    index_tracker = 0
     print("All items on file (* indicates item is currently out):")
     for row in rental_list:
         if row[3] == "out":
-            print("{:20} = ${:8.2f} *".format(row[0], float(row[2])))
+            print("{:20} ({:30})  = ${:8.2f} *".format(str(index_tracker) + " - " + row[0], row[1], float(row[2])))
+            index_tracker += 1
         else:
-            print("{:20} = ${:8.2f}".format(row[0], float(row[2])))
+            print("{:20} ({:30})  = ${:8.2f}".format(str(index_tracker) + " - " + row[0], row[1], float(row[2])))
+            index_tracker += 1
 
 
 def choice_hire_an_item(rental_list):
@@ -44,10 +86,10 @@ def choice_hire_an_item(rental_list):
     for row in rental_list:
         if row[3] == "in":
             nothing_to_hire_boolean = False
-            print("{:20} = ${:8.2f}".format(str(index_tracker) + " - " + row[0], float(row[2])))
+            print("{:20} ({:30})  = ${:8.2f}".format(str(index_tracker) + " - " + row[0], row[1], float(row[2])))
         index_tracker += 1
     if nothing_to_hire_boolean:
-        print("No items available for hire. Returning to main menu")
+        print("No items available for hire. Returning to main menu.")
         return
     item_to_hire = error_check_input(rental_list)
     if item_to_hire.upper() == "Q":
@@ -62,10 +104,10 @@ def choice_return_an_item(rental_list):
     for row in rental_list:
         if row[3] == "out":
             nothing_to_return_boolean = False
-            print("{:20} = ${:8.2f}".format(str(index_tracker) + " - " + row[0], float(row[2])))
+            print("{:20} ({:30})  = ${:8.2f}".format(str(index_tracker) + " - " + row[0], row[1], float(row[2])))
         index_tracker += 1
     if nothing_to_return_boolean:
-        print("No items available for return. Returning to main menu")
+        print("No items are currently on hire. Returning to main menu.")
         return
     item_to_return = error_check_input(rental_list)
     if item_to_return.upper() == "Q":
@@ -78,7 +120,7 @@ def error_check_input(rental_list):
     valid_input_boolean = False
     input_to_be_checked = ""
     while not valid_input_boolean:
-        input_to_be_checked = input("Which item would you like to hire? or Q to Quit")
+        input_to_be_checked = input("Enter the number of an item or enter 'Q' to return to the main menu.")
         try:
             if input_to_be_checked.upper() == "Q":
                 valid_input_boolean = True
