@@ -13,7 +13,7 @@ function choice_list_all_items(rental_list):
     display ("All items on file (* indicates item is currently out):")
     for each row in the rental_list array:
         if the status of an item in the list reads "out":
-            display the name of the item, the item description, and the price with an astrix to denote that this item is "out"
+            display the name of the item, the item description, and the price with an astrix showing the item is "out"
             add 1 to index_tracker
         else:
             display the name of the item, the item description, and the price
@@ -35,6 +35,7 @@ function choice_hire_an_item(rental_list):
         return to main menu
     else:
         set the items status to "out"
+        display message confirming item was hired out
 
 """
 import csv as csv
@@ -65,7 +66,7 @@ def main():
         elif menu_choice == "Q":
             is_running = choice_quit(rental_list)
         else:
-            print("Incorrect input.")
+            print("Invalid input.")
 
 
 def choice_list_all_items(rental_list):
@@ -96,6 +97,7 @@ def choice_hire_an_item(rental_list):
         return
     else:
         rental_list[int(item_to_hire)][3] = "out"
+        print("Item successfully hired.")
 
 
 def choice_return_an_item(rental_list):
@@ -114,6 +116,7 @@ def choice_return_an_item(rental_list):
         return
     else:
         rental_list[int(item_to_return)][3] = "in"
+        print("Item successfully returned.")
 
 
 def error_check_input(rental_list):
